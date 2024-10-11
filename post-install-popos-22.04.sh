@@ -1,3 +1,5 @@
+#! /bin/bash
+
 # Script de pós instalação, utilizado para o Pop OS 22.04
 # Instalação dos meus aplicativos e ferramentas de uso cotidiano
 
@@ -13,7 +15,10 @@ sudo dpkg -i packages-microsoft-prod.deb
 rm packages-microsoft-prod.deb
 
 # Update package index files:
-sudo apt-get update
+sudo apt-get update && sudo apt-get upgrade
+
+# Build tools
+sudo apt-get install -y build-essential procps curl file
 
 # Install GIT
 sudo apt-get install -y git-all
@@ -30,37 +35,40 @@ sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 # Install azure vpn client
 sudo apt-get install -y microsoft-azurevpnclient
 
-# Install Homebrew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-# Install k9s
-brew install derailed/k9s/k9s
-
 # Flatpaks
 
 # Flameshot
-flatpak install flathub org.flameshot.Flameshot
+flatpak install -y flathub org.flameshot.Flameshot
 
 # Visual Code
-flatpak install flathub com.visualstudio.code
+flatpak install -y flathub com.visualstudio.code
 
 # Thunderbird
-flatpak install flathub org.mozilla.Thunderbird
+flatpak install -y flathub org.mozilla.Thunderbird
 
 # Chrome
-flatpak install flathub com.google.Chrome
+flatpak install -y flathub com.google.Chrome
 
 # Edge
-flatpak install flathub com.microsoft.Edge
+flatpak install -y flathub com.microsoft.Edge
 
 # Proton VPN
-flatpak install flathub com.protonvpn.www
+flatpak install -y flathub com.protonvpn.www
 
 # Proton Pass
-flatpak install flathub me.proton.Pass
+flatpak install -y flathub me.proton.Pass
 
 # Spotify
-flatpak run com.spotify.Client
+flatpak install -y flathub com.spotify.Client
 
 # Steam
-flatpak install flathub com.valvesoftware.Steam
+flatpak install -y flathub com.valvesoftware.Steam
+
+# Install Homebrew
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
+test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >> ~/.bashrc
+
+# Install k9s
+brew install derailed/k9s/k9s
