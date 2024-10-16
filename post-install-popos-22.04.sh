@@ -18,7 +18,19 @@ rm packages-microsoft-prod.deb
 sudo apt-get update && sudo apt-get upgrade
 
 # Build tools
-sudo apt-get install -y build-essential procps curl file
+sudo apt-get install -y build-essential procps curl file golang-go ca-certificates \
+    binutils build-essential dkms linux-headers-$(uname -r) make
+
+# Install Docker
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # Install GIT
 sudo apt-get install -y git-all
@@ -35,7 +47,11 @@ sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 # Install azure vpn client
 sudo apt-get install -y microsoft-azurevpnclient
 
-# Flatpaks
+# Install Virtual Box 7
+sudo apt install -y virtualbox virtualbox-ext-pack
+sudo usermod -a -G vboxusers $USER
+
+## Flatpaks
 
 # Flameshot
 flatpak install -y flathub org.flameshot.Flameshot
@@ -72,3 +88,13 @@ echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >> ~/.bashrc
 
 # Install k9s
 brew install derailed/k9s/k9s
+
+# Install oh-my-posh
+brew install jandedobbeleer/oh-my-posh/oh-my-posh
+oh-my-posh font install meslo
+mkdir ~/.themes/omp-themes
+wget -o ~/.themes/omp-themes/craver.omp.json https://github.com/JanDeDobbeleer/oh-my-posh/blob/main/themes/craver.omp.json
+echo "eval \"\$(oh-my-posh init bash --config ~/.themes/omp-themes/craver.omp.json)\"" >> ~/.bashrc ## Após trocar a fonte no perfil do terminal para Meslo e reinicie o terminal
+
+# Install logo-ls-modernized
+curl https://raw.githubusercontent.com/UTFeight/logo-ls-modernized/master/INSTALL | bash
