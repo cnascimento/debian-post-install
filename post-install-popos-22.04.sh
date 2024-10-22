@@ -19,7 +19,8 @@ sudo apt-get update && sudo apt-get upgrade
 
 # Build tools
 sudo apt-get install -y build-essential procps curl file golang-go ca-certificates \
-    binutils build-essential dkms linux-headers-$(uname -r) make
+  apt-transport-https gnupg lsb-release \
+  binutils build-essential dkms linux-headers-$(uname -r) make neofetch
 
 # Install Docker
 sudo install -m 0755 -d /etc/apt/keyrings
@@ -30,7 +31,22 @@ echo \
   $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# Install Azure CLI
+sudo mkdir -p /etc/apt/keyrings
+curl -sLS https://packages.microsoft.com/keys/microsoft.asc |
+  gpg --dearmor | sudo tee /etc/apt/keyrings/microsoft.gpg > /dev/null
+sudo chmod go+r /etc/apt/keyrings/microsoft.gpg
+AZ_DIST=$(lsb_release -cs)
+echo "Types: deb
+URIs: https://packages.microsoft.com/repos/azure-cli/
+Suites: ${AZ_DIST}
+Components: main
+Architectures: $(dpkg --print-architecture)
+Signed-by: /etc/apt/keyrings/microsoft.gpg" | sudo tee /etc/apt/sources.list.d/azure-cli.sources
+sudo apt-get update
+sudo apt-get install azure-cli
 
 # Install GIT
 sudo apt-get install -y git-all
@@ -92,9 +108,9 @@ brew install derailed/k9s/k9s
 # Install oh-my-posh
 brew install jandedobbeleer/oh-my-posh/oh-my-posh
 oh-my-posh font install meslo
-mkdir ~/.themes/omp-themes
-wget -o ~/.themes/omp-themes/craver.omp.json https://github.com/JanDeDobbeleer/oh-my-posh/blob/main/themes/craver.omp.json
-echo "eval \"\$(oh-my-posh init bash --config ~/.themes/omp-themes/craver.omp.json)\"" >> ~/.bashrc ## Após trocar a fonte no perfil do terminal para Meslo e reinicie o terminal
+mkdir -p ~/.local/share/themes/omp-themes
+wget -P ~/.local/share/themes/omp-themes/ https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/refs/heads/main/themes/craver.omp.json
+echo "eval \"\$(oh-my-posh init bash --config ~/.local/share/themes/omp-themes/craver.omp.json)\"" >> ~/.bashrc ## Após trocar a fonte no perfil do terminal para Meslo e reinicie o terminal
 
 # Install logo-ls-modernized
 curl https://raw.githubusercontent.com/UTFeight/logo-ls-modernized/master/INSTALL | bash
