@@ -117,3 +117,8 @@ echo "eval \"\$(oh-my-posh init bash --config ~/.local/share/themes/omp-themes/c
 
 # Install logo-ls-modernized
 curl https://raw.githubusercontent.com/UTFeight/logo-ls-modernized/master/INSTALL | bash
+
+# Install bash-completion
+sudo apt-get install bash-completion
+# Add the completion script to your .bashrc file
+echo 'source <(kubectl completion bash)' >>~/.bashrc
