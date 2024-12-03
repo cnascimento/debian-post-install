@@ -42,6 +42,30 @@ sudo apt-get install -y \
     neofetch
 ```
 
+### Instalar a azure vpn client
+
+``` bash
+sudo apt-get install -y microsoft-azurevpnclient
+```
+
+Observações: Instalando o cliente de VPN da Azure, ocorre um conflito de roteamento entre interface WiFi e VPN. Identificado que a VPN estava com prioridade incorreta para tráfego de internet geral. É preciso adicionar rota padrão pelo WiFi com métrica menor (100)
+
+    # Para ver as rotas atuais
+    ip route show
+  
+    # Adicionar rota padrão com WiFi com métrica menor
+    sudo ip route add default via 192.168.1.1 dev wlp0s20f3 metric 100
+
+e remover rota duplicada com métrica 600 do WiFi. Deixar apenas uma rota default para WiFi com métrica 100.
+
+
+    # Remover rota padrão do WiFi com métrica maior
+    sudo ip route del default via 192.168.1.1 dev wlp0s20f3 metric 600
+
+Para testes, basta pingar o DNS público do google, se não houver perdas de pacotes a correção funcionou.
+
+    ping 8.8.8.8
+
 ### Instalar o Docker
 
 ``` bash
@@ -69,8 +93,50 @@ sudo apt-get install -y dotnet-sdk-6.0
 sudo apt-get install -y dotnet-sdk-8.0
 ```
 
+### Instalar o Visual Studio Code
+
+Acessar o link https://code.visualstudio.com/docs/setup/linux#_debian-and-ubuntu-based-distributions e realizar o download do .deb package (64-bit)
+
+``` bash
+sudo apt install ./<file>.deb
+
+# If you're on an older Linux distribution, you will need to run this instead:
+# sudo dpkg -i <file>.deb
+# sudo apt-get install -f # Install dependencies
+```
+
+### Instalar o Bat
+
+Verificar possível nova versão: https://github.com/sharkdp/bat/releases
+
+``` bash
+wget https://github.com/sharkdp/bat/releases/download/v0.24.0/bat_0.24.0_amd64.deb
+sudo dpkg -i bat_0.24.0_amd64.deb
+```
+
+Configurar o theme tokyonight_night
+
+``` bash
+mkdir -p "$(bat --config-dir)/themes"
+cd "$(bat --config-dir)/themes"
+# Replace _night in the lines below with _day, _moon, or _storm if needed.
+curl -O https://raw.githubusercontent.com/folke/tokyonight.nvim/main/extras/sublime/tokyonight_night.tmTheme
+bat cache --build
+bat --list-themes | grep tokyo # should output "tokyonight_night"
+
+export BAT_THEME=tokyonight_night # Esta variável coloquei no .bash_custom
+```
+
 ### Instalar o RClone (backup)
 
 ``` bash
 sudo -v ; curl https://rclone.org/install.sh | sudo bash
+```
+
+### Instalar o TLP
+
+Referência: https://www.baeldung.com/linux/limit-battery-charge-level
+
+``` bash
+sudo apt-get install tlp
 ```

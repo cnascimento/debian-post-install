@@ -75,9 +75,6 @@ flatpak install -y flathub org.flameshot.Flameshot
 # PeaZip
 flatpak install -y flathub io.github.peazip.PeaZip
 
-# Visual Code
-flatpak install -y flathub com.visualstudio.code
-
 # Thunderbird
 flatpak install -y flathub org.mozilla.Thunderbird
 
