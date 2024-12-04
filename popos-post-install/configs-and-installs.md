@@ -80,6 +80,38 @@ sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 
+### Instalar o Azure CLI
+
+``` bash
+sudo mkdir -p /etc/apt/keyrings
+
+curl -sLS https://packages.microsoft.com/keys/microsoft.asc |
+  gpg --dearmor | sudo tee /etc/apt/keyrings/microsoft.gpg > /dev/null
+
+sudo chmod go+r /etc/apt/keyrings/microsoft.gpg
+
+AZ_DIST=$(lsb_release -cs)
+echo "Types: deb
+URIs: https://packages.microsoft.com/repos/azure-cli/
+Suites: ${AZ_DIST}
+Components: main
+Architectures: $(dpkg --print-architecture)
+Signed-by: /etc/apt/keyrings/microsoft.gpg" | sudo tee /etc/apt/sources.list.d/azure-cli.sources
+
+sudo apt-get update
+
+sudo apt-get install azure-cli
+```
+
+### Instalar Kubectl e Kubelogin
+
+Usar o azure cli para instalar o Kubectl e o Kubectl login. A documentação sobre isso está aqui: https://learn.microsoft.com/en-us/cli/azure/aks?view=azure-cli-latest#az-aks-install-cli()
+
+``` bash
+# install (May require using the command ‘sudo’)
+az aks install-cli
+```
+
 ### Instalar o GIT
 
 ``` bash
@@ -91,6 +123,18 @@ sudo apt-get install -y git-all
 ``` bash
 sudo apt-get install -y dotnet-sdk-6.0
 sudo apt-get install -y dotnet-sdk-8.0
+```
+
+### Instalar o Helm
+
+Por script
+
+``` bash
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+
+rm get_helm.sh
 ```
 
 ### Instalar o Visual Studio Code
