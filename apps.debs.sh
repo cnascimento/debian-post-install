@@ -18,3 +18,9 @@ echo \
 sudo apt-get update
 
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+
+# Install Warp Terminal
+# Access https://app.warp.dev/get_warp?linux=true&auto_download=false and download the latest .deb package
+# Then run the following command to install it:
+sudo apt install ./warp-linux.deb
