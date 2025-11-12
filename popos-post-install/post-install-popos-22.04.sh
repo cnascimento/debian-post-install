@@ -63,39 +63,6 @@ sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 # Install azure vpn client
 sudo apt-get install -y microsoft-azurevpnclient
 
-# Install Virtual Box 7
-sudo apt install -y virtualbox virtualbox-ext-pack
-sudo usermod -a -G vboxusers $USER
-
-## Flatpaks
-
-# Flameshot
-flatpak install -y flathub org.flameshot.Flameshot
-
-# PeaZip
-flatpak install -y flathub io.github.peazip.PeaZip
-
-# Thunderbird
-flatpak install -y flathub org.mozilla.Thunderbird
-
-# Chrome
-flatpak install -y flathub com.google.Chrome
-
-# Edge
-flatpak install -y flathub com.microsoft.Edge
-
-# Proton VPN
-flatpak install -y flathub com.protonvpn.www
-
-# Proton Pass
-flatpak install -y flathub me.proton.Pass
-
-# Spotify
-flatpak install -y flathub com.spotify.Client
-
-# Steam
-flatpak install -y flathub com.valvesoftware.Steam
-
 # Install Homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"

@@ -54,7 +54,7 @@ Observações: Instalando o cliente de VPN da Azure, ocorre um conflito de rotea
     ip route show
   
     # Adicionar rota padrão com WiFi com métrica menor
-    sudo ip route add default via 192.168.1.1 dev wlp0s20f3 metric 100
+    sudo ip route add default via 192.168.1.1 dev wlp0s20f3 proto dhcp metric 100
 
 e remover rota duplicada com métrica 600 do WiFi. Deixar apenas uma rota default para WiFi com métrica 100.
 
